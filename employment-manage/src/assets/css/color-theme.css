@@ -1,0 +1,8 @@
+#home-header {
+  background: #252a2f;
+}
+
+.tags-li.active {
+    border: 1px solid #409EFF;
+    background-color: #409EFF;
+}

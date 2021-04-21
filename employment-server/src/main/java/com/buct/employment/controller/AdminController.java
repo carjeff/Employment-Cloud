@@ -28,7 +28,7 @@ public class AdminController {
     public Result<CodeMsg> loginStatus(@RequestBody AdminReq adminReq) {
         try {
             boolean flag = adminService.verifyPassword(adminReq.getUsername(), adminReq.getPassword());
-            log.info("登录用户信息为：username: {}, password: {}", adminReq.getUsername(), adminReq.getPassword());
+            log.info("登录管理员信息为：username: {}, password: {}", adminReq.getUsername(), adminReq.getPassword());
             if (flag) {
                 return Result.success(CodeMsg.LOGIN_SUCCESS);
             } else {

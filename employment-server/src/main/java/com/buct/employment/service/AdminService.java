@@ -1,5 +1,7 @@
 package com.buct.employment.service;
 
+import org.springframework.stereotype.Service;
+
 /**
  * @author JeffCar
  * @date 3/6/2021 - 12:33 PM

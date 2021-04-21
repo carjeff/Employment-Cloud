@@ -1,4 +1,4 @@
-package com.buct.employment.domin;
+package com.buct.employment.domain;
 
 import lombok.Data;
 

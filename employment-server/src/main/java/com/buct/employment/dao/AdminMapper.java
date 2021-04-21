@@ -17,5 +17,5 @@ public interface AdminMapper {
      * @param password  密码
      * @return 查询结果个数
      */
-    int verifyPassword(@Param("username") String username, @Param("password") String password);
+    int verifyAdmin(@Param("username") String username, @Param("password") String password);
 }

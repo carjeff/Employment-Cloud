@@ -14,6 +14,7 @@ Vue.config.productionTip = false
 
 Vue.prototype.$http = http
 Vue.prototype.$bus = bus
+Vue.prototype.HOST = '/api'
 Vue.use(ElementUI)
 /* eslint-disable no-new */
 new Vue({

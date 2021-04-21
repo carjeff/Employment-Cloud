@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.buct.employment.dao.CompanyMapper">
+    <resultMap id="BaseResultMap" type="com.buct.employment.domain.Company">
+        <id column="company_id" jdbcType="BIGINT" javaType="LONG" property="company_id"/>
+        <result column="company_name" jdbcType="VARCHAR" javaType="String" property="company_name" />
+        <result column="company_scale" jdbcType="VARCHAR" javaType="String" property="company_scale" />
+        <result column="icon" jdbcType="VARCHAR" javaType="String" property="icon" />
+        <result column="company_nature" jdbcType="VARCHAR" javaType="String" property="company_nature" />
+        <result column="introduction" jdbcType="VARCHAR" javaType="String" property="introduction" />
+        <result column="city" jdbcType="VARCHAR" javaType="String" property="city" />
+        <result column="contact_person" jdbcType="VARCHAR" javaType="String" property="contact_person" />
+        <result column="contact_detail" jdbcType="VARCHAR" javaType="String" property="contact_detail" />
+        <result column="website" jdbcType="VARCHAR" javaType="String" property="website" />
+        <result column="email" jdbcType="VARCHAR" javaType="String" property="email" />
+        <result column="create_time" jdbcType="BIGINT" javaType="Long" property="create_time" />
+        <result column="update_time" jdbcType="BIGINT" javaType="Long" property="update_time" />
+    </resultMap>
+<!--    添加企业-->
+    <insert id="insert" parameterType="com.buct.employment.domain.Company">
+        insert into company
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="company_id != null">
+                company_id,
+            </if>
+            <if test="company_name != null">
+                company_name,
+            </if>
+            <if test="company_scale != null">
+                company_scale,
+            </if>
+            <if test="icon != null">
+                icon,
+            </if>
+            <if test="company_nature != null">
+                company_nature,
+            </if>
+            <if test="introduction != null">
+                introduction,
+            </if>
+            <if test="city != null">
+                city,
+            </if>
+            <if test="contact_person != null">
+                contact_person,
+            </if>
+            <if test="contact_detail != null">
+                contact_detail,
+            </if>
+            <if test="website">
+                website,
+            </if>
+            <if test="email != null">
+                email,
+            </if>
+            <if test="create_time != null">
+                create_time,
+            </if>
+            <if test="update_time != null">
+                update_time,
+            </if>
+        </trim>
+        <trim prefix=" values (" suffix=")" suffixOverrides=",">
+            <if test="company_id != null">
+                #{company_id},
+            </if>
+            <if test="company_name != null">
+                #{company_name},
+            </if>
+            <if test="company_scale != null">
+                #{company_scale},
+            </if>
+            <if test="icon != null">
+                #{icon},
+            </if>
+            <if test="company_nature != null">
+                #{company_nature},
+            </if>
+            <if test="introduction != null">
+                #{introduction},
+            </if>
+            <if test="city != null">
+                #{city},
+            </if>
+            <if test="contact_person != null">
+                #{contact_person},
+            </if>
+            <if test="contact_detail != null">
+                #{contact_detail},
+            </if>
+            <if test="website">
+                #{website},
+            </if>
+            <if test="email != null">
+                #{email},
+            </if>
+            <if test="create_time != null">
+                #{create_time},
+            </if>
+            <if test="update_time != null">
+                #{update_time},
+            </if>
+        </trim>
+    </insert>
+<!--    删除企业-->
+    <delete id="delete" parameterType="java.lang.Long">
+        delete from company
+        where company_id = #{company_id}
+    </delete>
+<!--    修改企业-->
+    <update id="update" parameterType="com.buct.employment.domain.Company">
+        update company
+        <set>
+            <if test="company_name != null">
+                company_name = #{company_name},
+            </if>
+            <if test="company_scale != null">
+                company_scale = #{company_scale},
+            </if>
+            <if test="icon != null">
+                icon = #{icon},
+            </if>
+            <if test="company_nature != null">
+                company_nature = #{company_nature},
+            </if>
+            <if test="introduction != null">
+                introduction = #{introduction},
+            </if>
+            <if test="city != null">
+                city = #{city},
+            </if>
+            <if test="contact_person != null">
+                contact_person = #{contact_person},
+            </if>
+            <if test="contact_detail != null">
+                contact_detail = #{contact_detail},
+            </if>
+            <if test="website">
+                website = #{website},
+            </if>
+            <if test="email != null">
+                email = #{email},
+            </if>
+            <if test="create_time != null">
+                create_time = #{create_time},
+            </if>
+            <if test="update_time != null">
+                update_time = #{update_time},
+            </if>
+        </set>
+        where company_id = #{company_id}
+    </update>
+<!--    根据id查找企业-->
+    <select id="selectCompanyById" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select *
+        from company
+        where company_id = #{company_id}
+    </select>
+<!--    根据企业名字查找企业-->
+    <select id="selectCompanyByName" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select *
+        from company
+        where company_name like concat('%', #{company_name}, '%')
+    </select>
+<!--    查找所有企业-->
+    <select id="selectAllCompanies" resultMap="BaseResultMap">
+        select * from company
+    </select>
+<!--    根据企业性质查找企业-->
+    <select id="selectCompanyByNature" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select * from company
+        where company_nature = #{company_nature}
+    </select>
+<!--    根据企业地点查找企业-->
+    <select id="selectCompanyByCity" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select * from company
+        where city = #{city}
+    </select>
+</mapper>

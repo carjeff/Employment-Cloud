@@ -3,8 +3,12 @@
  */
 
  import admin from './admin.api'
+ import user from './user.api'
+ import company from './company.api'
  
  export default {
-   admin
+   admin,
+   user,
+   company
  }
  

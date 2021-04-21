@@ -97,14 +97,15 @@
               :on-success="handleImgSuccess"
               name="file"
             >
-              <img :src="scope.row.avator" class="avatar" />
+              <img :src="HOST+scope.row.avatar" class="avatar" />
             </el-upload>
           </template>
         </el-table-column>
-        <el-table-column prop="username" label="用户名" min-width="10%" align="center" />
-        <el-table-column prop="password" label="密码" min-width="10%" align="center" />
+        <el-table-column prop="username" label="用户名" min-width="8%" align="center" />
+        <el-table-column prop="password" label="密码" min-width="8%" align="center" />
+        <el-table-column prop="name" label="姓名" min-width="5%" align="center"/>
         <el-table-column prop="sex" label="性别" min-width="5%" align="center" />
-        <el-table-column prop="birth" label="生日" min-width="10%" align="center" />
+        <el-table-column prop="birth" label="生日" min-width="9%" align="center" />
         <el-table-column prop="location" label="地区" min-width="5%" align="center" />
         <el-table-column prop="introduction" label="简介" min-width="10%" align="center" />
         <el-table-column label="操作" min-width="10%" align="center">
@@ -112,7 +113,7 @@
             <el-button @click="editUserDialog(scope.row)" size="mini" type="primary" icon="el-icon-plus" style="width: 50px; padding: 7px 0"
               >编辑
             </el-button>
-            <el-button @click="deleteUser(scope.row)" size="mini" type="danger" icon="el-icon-plus" style="width: 50px; padding: 7px 0"
+            <el-button @click="handleDeleteRow(scope.row)" size="mini" type="danger" icon="el-icon-plus" style="width: 50px; padding: 7px 0"
               >删除</el-button
             >
           </template>
@@ -150,7 +151,7 @@ export default {
         introduction: '',
         phoneNumber: '',
         email: '',
-        avator: ''
+        avatar: ''
       },
       searchFom: {
         username: ''
@@ -163,11 +164,11 @@ export default {
   methods: {
     //添加用户
     addUser() {
-      this.registerForm.avator = '/img/userAvatar/avatar.png'
+      this.registerForm.avatar = '/img/userAvatar/avatar.png'
       this.$http.user
-        .addUser(JSON.stringify(this.registerForm))
+        .addUser(this.registerForm)
         .then(res => {
-          if (res.code === 0) {
+          if (res.data.code === 0) {
             this.$notify({
               message: '添加成功',
               type: 'success'
@@ -188,8 +189,8 @@ export default {
     //展示所有用户
     listAll() {
       this.$http.user.getAllUsers().then(res => {
-        if (res.code === 0 && res.data) {
-          let data = res.data
+        if (res.data.code === 0 && res.data.data) {
+          let data = res.data.data
           data.forEach(item => {
             if (item.birth) {
               let time = new Date(item.birth)
@@ -201,7 +202,7 @@ export default {
               item.sex = '男'
             }
           })
-          this.tableData = res.data
+          this.tableData = res.data.data
         }
       })
     },
@@ -221,19 +222,20 @@ export default {
       } else {
         this.registerForm.sex = 0
       }
-      // this.registerForm.username = params.username
-      // this.registerForm.password = params.password
-      // let sex = params.sex
-      // if(sex === '男'){
-      //   this.registerForm.sex = 1
-      // }else {
-      //   this.registerForm.sex = 0
-      // }
-      // this.registerForm.birth = params.birth
-      // this.registerForm.location = params.location
-      // this.registerForm.introduction = params.introduction
-      // this.registerForm.phoneNumber = params.phoneNumber
-      // this.registerForm.email = params.email
+    },
+    //删除提示框
+    openDelConfirm(name) {
+      return this.$confirm(`此操作将删除 ${name}, 是否确定？`, '提示',{
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      })
+    },
+    //控制删除
+    handleDeleteRow(row) {
+      this.openDelConfirm(row.username).then(() => {
+        this.deleteUser(row)
+      })
     },
     //删除用户
     deleteUser(params) {
@@ -249,7 +251,7 @@ export default {
         .deleteUser(query)
         .then(res => {
           // console.log('获取' + res.code)
-          if (res.code === 0) {
+          if (res.data.code === 0) {
             this.$notify({
               message: '删除成功',
               type: 'success'
@@ -280,9 +282,9 @@ export default {
     //修改用户信息按钮
     editUserInfo() {
       this.$http.user
-        .updateUser(JSON.stringify(this.registerForm))
+        .updateUser(this.registerForm)
         .then(res => {
-          if (res.code === 0) {
+          if (res.data.code === 0) {
             this.$notify({
               message: '修改用户信息完成',
               type: 'success'
@@ -307,8 +309,8 @@ export default {
         }
       }
       this.$http.user.getUserByName(query).then(res => {
-        if (res.code === 0 && res.data) {
-          res.data.forEach(item => {
+        if (res.data.code === 0 && res.data.data) {
+          res.data.data.forEach(item => {
             let time = new Date(item.birth)
             item.birth = formatDate(time, 'yyyy-MM-dd')
             if (item.sex == 0) {
@@ -317,13 +319,13 @@ export default {
               item.sex = '男'
             }
           })
-          this.tableData = res.data
+          this.tableData = res.data.data
         }
       })
     },
     // 图片上传地址
     uploadUrl(id) {
-      return `${process.env.VUE_APP_BASE_URL}/admin/user/updatePic?id=${id}`
+      return `http://localhost:8888/admin/user/updatePic?id=${id}`
     },
     // 校验图片格式
     beforeUpload(file) {

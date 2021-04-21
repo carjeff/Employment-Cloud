@@ -24,6 +24,6 @@ public class AdminServiceImpl implements AdminService {
      */
     @Override
     public boolean verifyPassword(String username, String password) {
-        return adminMapper.verifyPassword(username, password) > 0;
+        return adminMapper.verifyAdmin(username, password) > 0;
     }
 }

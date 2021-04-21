@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.buct.employment.dao.UserMapper">
+    <resultMap id="BaseResultMap" type="com.buct.employment.domain.User">
+        <id column="id" jdbcType="BIGINT" javaType="LONG" property="id"/>
+        <result column="username" jdbcType="VARCHAR" javaType="String" property="username" />
+        <result column="password" jdbcType="VARCHAR" javaType="String" property="password" />
+        <result column="name" jdbcType="VARCHAR" javaType="String" property="name" />
+        <result column="sex" jdbcType="TINYINT" javaType="Boolean" property="sex" />
+        <result column="phone_num" jdbcType="CHAR" javaType="String" property="phone_num" />
+        <result column="email" jdbcType="CHAR" javaType="String" property="email" />
+        <result column="birth" jdbcType="DATE" javaType="Date" property="birth" />
+        <result column="introduction" jdbcType="VARCHAR" javaType="String" property="introduction" />
+        <result column="location" jdbcType="VARCHAR" javaType="String" property="location" />
+        <result column="avatar" jdbcType="VARCHAR" javaType="String" property="avatar" />
+        <result column="create_time" jdbcType="BIGINT" javaType="Long" property="create_time" />
+        <result column="update_time" jdbcType="BIGINT" javaType="Long" property="update_time" />
+    </resultMap>
+<!--验证登录-->
+    <select id="verifyPassword" resultType="java.lang.Integer">
+        select count(*) from user where username = #{username} and password = #{password}
+    </select>
+
+<!--添加用户-->
+    <insert id="insert" parameterType="com.buct.employment.domain.User">
+        insert into user
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="username != null">
+                username,
+            </if>
+            <if test="name != null">
+                name,
+            </if>
+            <if test="password != null">
+                password,
+            </if>
+            <if test="sex != null">
+                sex,
+            </if>
+            <if test="phone_num != null">
+                phone_num,
+            </if>
+            <if test="email != null">
+                email,
+            </if>
+            <if test="birth != null">
+                birth,
+            </if>
+            <if test="introduction != null">
+                introduction,
+            </if>
+            <if test="location != null">
+                location,
+            </if>
+            <if test="avatar != null">
+                avatar,
+            </if>
+            <if test="create_time != null">
+                create_time,
+            </if>
+            <if test="update_time != null">
+                update_time,
+            </if>
+        </trim>
+        <trim prefix=" values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id},
+            </if>
+            <if test="username != null">
+                #{username},
+            </if>
+            <if test="password != null">
+                #{password},
+            </if>
+            <if test="sex != null">
+                #{sex},
+            </if>
+            <if test="phone_num != null">
+                #{phone_num},
+            </if>
+            <if test="email != null">
+                #{email},
+            </if>
+            <if test="birth != null">
+                #{birth},
+            </if>
+            <if test="introduction != null">
+                #{introduction},
+            </if>
+            <if test="location != null">
+                #{location},
+            </if>
+            <if test="avatar != null">
+                #{avatar},
+            </if>
+            <if test="create_time != null">
+                #{create_time},
+            </if>
+            <if test="update_time != null">
+                #{update_time},
+            </if>
+        </trim>
+    </insert>
+
+
+<!--删除用户-->
+    <delete id="delete" parameterType="java.lang.Long">
+        delete
+        from user
+        where id = #{id}
+    </delete>
+
+<!--修改用户-->
+    <update id="update" parameterType="com.buct.employment.domain.User">
+        update user
+        <set>
+            <if test="username !=null">
+                username = #{username},
+            </if>
+            <if test="password !=null">
+                password = #{password},
+            </if>
+            <if test="name !=null">
+                name = #{name},
+            </if>
+            <if test="sex !=null">
+                sex = #{sex},
+            </if>
+            <if test="phone_num !=null">
+                phone_num = #{phone_num},
+            </if>
+            <if test="email !=null">
+                email = #{email},
+            </if>
+            <if test="birth !=null">
+                birth = #{birth},
+            </if>
+            <if test="introduction !=null">
+                introduction = #{introduction},
+            </if>
+            <if test="avatar !=null">
+                avatar = #{avatar},
+            </if>
+            <if test="location !=null">
+                location = #{location},
+            </if>
+            <if test="create_time !=null">
+                create_time = #{create_time},
+            </if>
+            <if test="update_time !=null">
+                update_time = #{update_time},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+<!--根据id找用户-->
+    <select id="selectUserById" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select * from user
+        where id = #{id}
+    </select>
+
+<!--查找所有用户-->
+    <select id="selectAllUsers" resultMap="BaseResultMap">
+        select * from
+        user
+    </select>
+
+<!--根据姓名模糊查找-->
+    <select id="selectUserByName" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select *
+        from user
+        where username like CONCAT('%',#{username},'%')
+    </select>
+</mapper>

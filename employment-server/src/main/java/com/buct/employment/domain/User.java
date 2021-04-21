@@ -1,4 +1,4 @@
-package com.buct.employment.domin;
+package com.buct.employment.domain;
 
 import lombok.Data;
 
@@ -15,9 +15,11 @@ public class User {
     private String username;
 
     private String password;
+    //用户姓名
+    private String name;
 
     //用户性别
-    private int sex;
+    private Boolean sex;
     //用户电话
     private String phone_num;
     //用户生日
@@ -31,8 +33,8 @@ public class User {
     //头像
     private String avatar;
     //创建时间
-    private int create_time;
+    private Long create_time;
     //修改时间
-    private int update_time;
+    private Long update_time;
 
 }
